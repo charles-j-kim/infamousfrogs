@@ -1,7 +1,7 @@
 import React from 'react';
 
 const RecipeItem = (props) => (
-  <div className="col-md-3">
+  <div className="col-md-4">
     title: {props.recipe.title}<br/>
     <img className="img-rounded" src ={props.recipe.image} width="280"/><br/>
     used IngredientCount: {props.recipe.usedIngredientCount}<br/>

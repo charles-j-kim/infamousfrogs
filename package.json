@@ -27,6 +27,7 @@
     "react": "^15.5.4",
     "react-bootstrap": "^0.31.0",
     "react-dom": "^15.5.4",
+    "react-slick": "^0.14.11",
     "request": "^2.81.0"
   }
 }
