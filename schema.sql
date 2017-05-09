@@ -2,7 +2,7 @@ DROP DATABASE IF EXISTS test;
 
 CREATE DATABASE test;
 
-USE test;
+\c test;
 
 CREATE TABLE users (
   id SERIAL,
@@ -20,7 +20,6 @@ CREATE TABLE recipes (
   link VARCHAR(250),
   user_id INT,
   PRIMARY KEY (id),
-  UNIQUE (photo_id)
 );
 
 -- test cases
