@@ -1,36 +1,84 @@
 import React from 'react';
-import Slider from 'react-slick';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import {GridList, GridTile} from 'material-ui/GridList';
+import Popover from 'material-ui/Popover';
 import RecipeItem from './RecipeItem.jsx';
+
+const styles = {
+  root: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    justifyContent: 'space-around',
+  },
+  gridList: {
+    display: 'flex',
+    flexWrap: 'nowrap',
+    overflowY: 'auto',
+  },
+};
 
 //display all the recipes retrieved from API
 class RecipesView extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      recipeList: [],
+      open: false
+    };
+
+    Object.keys(this.props.recipeList).map((key, index) => {
+      this.state.recipeList.push(this.props.recipeList[key]);
+    });
+
+    this.handleTouchTap = this.handleTouchTap.bind(this);
+    this.handleRequestClose = this.handleRequestClose.bind(this);
+  }
+
+  handleTouchTap(event, title) {
+    event.preventDefault();
+    this.setState ({
+      open: true,
+      anchorEl: event.currentTarget,
+      srcUrl: event.target.src,
+      srcTitle: title
+    });
+  }
+
+  handleRequestClose() {
+    this.setState({
+      open: false
+    });
   }
   
   render() {
-    var settings = {
-      dots: true,
-      infinite: true,
-      autoplay: true,
-      speed: 500,
-      slidesToShow: 4,
-      slidesToScroll: 1
-    };
-
     return (
-      <div className="col-md-12">
-        <Slider {...settings}>
-          <div><img className="img-rounded" src ={this.props.recipeList[0].image} width="280"/></div>
-          <div><img className="img-rounded" src ={this.props.recipeList[1].image} width="280"/></div>
-          <div><img className="img-rounded" src ={this.props.recipeList[2].image} width="280"/></div>
-          <div><img className="img-rounded" src ={this.props.recipeList[4].image} width="280"/></div>
-          <div><img className="img-rounded" src ={this.props.recipeList[5].image} width="280"/></div>
-          <div><img className="img-rounded" src ={this.props.recipeList[6].image} width="280"/></div>
-          <div><img className="img-rounded" src ={this.props.recipeList[7].image} width="280"/></div>
-          <div><img className="img-rounded" src ={this.props.recipeList[8].image} width="280"/></div>
-          <div><img className="img-rounded" src ={this.props.recipeList[9].image} width="280"/></div>
-        </Slider>
+      <div style={styles.root} className="col-md-12">
+        <h4> Search Result </h4>
+        <GridList
+         cellHeight={240}
+         style={styles.gridList}
+        >
+          {this.state.recipeList.map((recipe) =>
+            <GridTile 
+              key={recipe.id}
+              title={recipe.title}
+            >
+              <img src={recipe.image} onClick={event => this.handleTouchTap(event, recipe.title)}/>
+            </GridTile>
+          )}
+        </GridList>
+        <Popover
+          open={this.state.open}
+          anchorEl={this.state.anchorEl}
+          anchorOrigin={{horizontal: 'middle', vertical: 'bottom'}}
+          targetOrigin={{horizontal: 'middle', vertical: 'top'}}
+          onRequestClose={this.handleRequestClose}>
+          <div>
+          <img src={this.state.srcUrl} height={400}/>
+          <h5>{this.state.srcTitle}</h5>
+          <p> Insert Description Here </p>
+          </div>
+        </Popover>              
       </div>
     );
   } 
@@ -39,11 +87,12 @@ class RecipesView extends React.Component {
 export default RecipesView;
           
 
-// Previously used code
-          // {this.props.recipeList ?
-          //   Object.keys(this.props.recipeList).map((key, index) =>
-          //   <RecipeItem key={this.props.recipeList[index].id} recipe={this.props.recipeList[index]}/>
-          //   ) : <p>No recipes</p>
-          // }
           
-
+// Previously used code
+//       <div className="col-md-12">
+//           {this.props.recipeList ?
+//             Object.keys(this.props.recipeList).map((key, index) =>
+//             <RecipeItem key={this.props.recipeList[index].id} recipe={this.props.recipeList[index]}/>
+//             ) : <p>No recipes</p>
+//           }
+//       </div>

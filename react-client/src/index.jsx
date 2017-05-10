@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import $ from 'jquery';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Nav from './components/Nav.jsx';
 import IngredientFilter from './components/IngredientFilter.jsx';
 import RecipesView from './components/RecipesView.jsx';
@@ -94,6 +95,7 @@ class App extends React.Component {
 
   render() {
     return (
+    <MuiThemeProvider>
       <div>
         <Nav/>
         <h4>Pick Your Ingredients</h4>
@@ -105,6 +107,7 @@ class App extends React.Component {
         <RecipesView recipeList = {this.state.recipeList}/>
         <button onClick={this.handleSubmit}>Submit</button>
       </div>
+    </MuiThemeProvider>
     );
   }
 }
